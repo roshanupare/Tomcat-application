@@ -1,0 +1,34 @@
+---
+- name: Start Tomcat Service
+  hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+    # - name: Start Tomcat service
+    # systemd:
+    #   name: tomcat
+    #    state: started
+    - name: Start Tomcat service
+      command: /opt/tomcat/bin/catalina.sh start
+        #    - name: Execute catalina.sh
+        # command: /opt/tomcat/bin/catalina.sh
+    - name: student
+      copy:
+        src: ./student.war
+        dest: /opt/tomcat/webapps/
+
+    - name: mysql-connector
+      copy:
+        src: ./mysql-connector.jar
+        dest: /opt/tomcat/lib/
+
+    - name: configuration
+      copy:
+        src: ./context.xml
+        dest: /opt/tomcat/conf/
+    - name: Start Tomcat service
+      command: /opt/tomcat/bin/catalina.sh stop
+
+    - name: Start Tomcat service
+      command: /opt/tomcat/bin/catalina.sh start
